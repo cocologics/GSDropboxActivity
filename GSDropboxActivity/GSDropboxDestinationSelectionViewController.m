@@ -56,8 +56,6 @@
     ];
     
     [self.navigationController setToolbarHidden:NO];
-    self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
-    self.navigationController.toolbar.tintColor = [UIColor darkGrayColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationBecameActive:)
