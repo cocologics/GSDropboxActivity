@@ -30,6 +30,7 @@
     if (self) {
         _isLoading = YES;
         self.dropboxConnectionRetryCount = 0;
+        self.title = @"Dropbox";
     }
     return self;
 }
