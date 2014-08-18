@@ -7,6 +7,7 @@
 
 #import "GSDropboxDestinationSelectionViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "GSDropboxActivity.h"
 
 #define kDropboxConnectionMaxRetries 2
 
@@ -60,6 +61,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationBecameActive:)
                                                  name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleApplicationBecameActive:)
+                                                 name:GSDropboxActivityLoginFailedNotification
                                                object:nil];
 }
 
@@ -124,6 +130,14 @@
         //animations
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [[DBSession sharedSession] linkFromController:self];
+        
+        // reenable the cancel button after a short delay, otherwise the user will be stuck
+        // if linking fails (or the webview login is cancelled in case the Dropbox App is not available)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            });
+        });
     } else {
         [self.delegate dropboxDestinationSelectionViewControllerDidCancel:self];
     }

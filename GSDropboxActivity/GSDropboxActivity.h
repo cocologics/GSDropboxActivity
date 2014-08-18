@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString* const GSDropboxActivityLoginFailedNotification = @"GSDropboxActivityLoginFailedNotification";
+
 @interface GSDropboxActivity : UIActivity
 
 + (NSString*)activityTypeString;
