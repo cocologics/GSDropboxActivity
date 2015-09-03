@@ -69,13 +69,6 @@
                                                object:nil];
 }
 
-- (void)viewDidUnload
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [super viewDidUnload];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -149,12 +142,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (BOOL)shouldAutorotate
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         return YES;
     
-    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return orientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (DBRestClient *)dropboxClient
